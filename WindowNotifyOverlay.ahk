@@ -799,7 +799,7 @@ Class WindowNotifyOverlay {
 			; icon to side content
 			If FileExist(icon)
 				sideHtml := '<img src="file://' owner._encUrl(StrReplace(icon,"\","/")) '">'
-			Else If icon ~= "i)^https?://"
+			Else If icon ~= "i)^https?://|^data:image/"
 				sideHtml := '<img src="' icon '">' ; "
 			Else If owner.__Static.SvgIconMap.Has(icon)
 				sideHtml := '<img src="data:image/svg+xml;base64,'
