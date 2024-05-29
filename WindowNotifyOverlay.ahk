@@ -84,7 +84,6 @@
  *
  * Static Class Methods:
  *	__New()	-> Class
- *	__Delete()
  *	_Static_WM_SIZE(...)
  *
  * Constructor:
@@ -106,6 +105,7 @@
  * Instance Methods:
  *	PopupSimple(...) -> unset
  *	Popup(...) -> WindowNotifyOverlay.Popup
+ *	__Delete()
  */
 Class WindowNotifyOverlay {
 	/** Holds instances of this class
@@ -452,7 +452,7 @@ Class WindowNotifyOverlay {
 		; <!DOCTYPE html><meta charset='utf-8'>
 		htmldoc.Write(Format(this.__Static.DOC_TEMPLATE, this.__Static.DEFAULT_CSS))
 
-		/** @member {Map} stores references to all created popups */
+		this._popuptpl := this.__Static.POPUP_HTML_TEMPLATE
 		this._popups := Map()
 
 		WinSetTransColor "00FF00", "ahk_id " overGui.Hwnd
@@ -827,7 +827,7 @@ Class WindowNotifyOverlay {
 			title := (title~="i)^html:") ? RegExReplace(title,"i)^html:") : sanitize(title)
 
 			; create the dom structure inside the tempContainer
-			tempContainer.innerHtml := Format(owner.__Static.POPUP_HTML_TEMPLATE,
+			tempContainer.innerHtml := Format(owner.PopupHtmlTemplate,
 				ID, "", popupThemeClass, text, title, sideHtml, "")
 			; the tempContainer must be inserted into the document body...
 			owner.doc.body.insertBefore(tempContainer)
