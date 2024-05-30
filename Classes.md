@@ -78,7 +78,10 @@ The Class prototype, - to get to the static props.
 `HWND` of the parent.
 
 #### `popups`
-A `Map` where the key is a unique id, value is WindowNotifyOverlay.Popup instance.
+A `Map` where the key is a unique id, value is `WindowNotifyOverlay.Popup` instance.
+
+DO NOT add or remove items directly. Instead use the `Popup()` method to add,
+and call the individual popup's `Remove()` method to remove.
 
 #### `HtmlEvents`
 Instance of `WindowNotifyOverlay.HtmlDocEvents` bound to the instance's `Doc`.
@@ -136,7 +139,7 @@ Creates a popup and returns a `WindowNotifyOverlay.Popup` instance.
 
 | Name			| Abbr.	| Mock	| Theme		|
 |---------------|-------|-------|-----------|
-| `Alert`		| `!`	| <!>	| error		|
+| `Alert`		| `!`	| <!>   | error		|
 | `Error`		| `E`	| (X)	| error		|
 | `Excluded`	| `-`	| (-)	| error		|
 | `Help`		| `?`	| (?)	| info		|

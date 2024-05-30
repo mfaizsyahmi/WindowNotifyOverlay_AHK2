@@ -1,7 +1,11 @@
 # WindowNotifyOverlay.ahk
 Window overlay and notification popups using HTML.
 
-Creates a window overlay using HTML/CSS, which is then used to display notifications within the window's client area. Works on both AHK Gui window and other windows, including the desktop. The Popup class implements method chaining, like good old jQuery.
+Creates a window overlay using HTML/CSS, which is then used to display notifications within the window's client area. 
+Works on both AHK Gui window and other windows, including the desktop. 
+The Popup class implements method chaining, like good old jQuery.
+
+Requires AutoHotkey v2.0.
 
 ## Example
 1) Creating an overlay
@@ -52,6 +56,10 @@ A sandbox example is available in [Example/GuiWithOverlay.ahk](Example/GuiWithOv
 
 ## Class documentation
 See [Classes.md](Classes.md) for documentation on classes in WindowNotifyOverlay.ahk.
+
+## Changelog
+#### 2024-05-30 [v1.0.0]
+- Initial release
 
 ## License
 See [LICENSE.txt](LICENSE.txt) for full text.
