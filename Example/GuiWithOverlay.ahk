@@ -2,6 +2,7 @@
 #SingleInstance
 #INCLUDE ..\
 #INCLUDE WindowNotifyOverlay.ahk
+#INCLUDE WindowNotifyOverlay_Icons.ahk
 ; #INCLUDE AutoXYWH_hashed.ahk ; v2 version of this library is broken
 #MaxThreads 69
 
@@ -26,7 +27,7 @@ Main.AddRadio("xm y+10 w300 Group Checked", "DarkMode") ;.OnEvent("Click", Toggl
 Main.AddRadio("xm y+10 w300", "LightMode") ; .OnEvent("Click", ToggleTheme)
 
 
-mtab := Main.AddTab3("x+10 ym vTab",["List","CSS","Test","Create"])
+mtab := Main.AddTab3("x+10 ym vTab",["List","Props","CSS","Test","Create"])
 mtab.UseTab(1)
 	LV := Main.AddListView("w300 r10", ["LV 1", "LV 2", "LV 3"])
 	loop 11
@@ -44,10 +45,10 @@ MainOverlay.opacity := 240
 ; desktopHwnd := WinGetId("ahk_class Progman")
 ; yyy := WindowNotifyOverlay(desktopHwnd)
 
-pad := [
-	MainOverlay.Popup("padding1",,,,"TL").Show(),
+;pad := [
+	MainOverlay.Popup("padding1",,,,"TL").Show() ;,
 	MainOverlay.Popup("padding2",,,,"TL").Show()
-]
+;]
 test := MainOverlay.Popup("HTML:TEST and a <a href='#asdf'>link</a>","TITLE","InformationOutline",,"TL")
 	.SetFont("italic","cursive","title")
 	.Show()
@@ -56,6 +57,71 @@ test := MainOverlay.Popup("HTML:TEST and a <a href='#asdf'>link</a>","TITLE","In
 	;.OnEvent("ContextMenu", (inst,e,el,*)=> MsgBox("Context menu?`n" el.id))
 
 mtab.UseTab(2)
+	Main.AddText("w100 section", "Stacking order")
+	CtrlBind(Main.AddRadio("x+0 w100 vpropStackOrder","Start of stack"),
+		MainOverlay, "StackOrder", (v)=>v=0, (v)=>0)
+	CtrlBind(Main.AddRadio("x+0 w100","End of stack"),
+		MainOverlay, "StackOrder", (v)=>v=1, (v)=>1)
+
+	Main.AddText("xs y+m w100","Transparent colour")
+	CtrlBind(
+		Main.AddComboBox("x+0 w100 vpropTransColor",MapGetKeys(WindowNotifyOverlay.COLOR_MAP)),
+		MainOverlay, "TransColor"
+	)
+
+	Main.AddText("xs y+m w70","Opacity")
+	Main.AddText("x+0 w25 right 0x200 vopacityText", MainOverlay.opacity)
+	Main.AddSlider("x+5 w200 range0-255 AltSubmit TickInterval16 ToolTip",
+		MainOverlay.opacity)
+	.OnEvent("Change",opacitySlider_Change)
+
+	Main.AddText("xs y+m w100", "List of popups")
+	LVPopups := Main.AddListView("xs y+m w300 R10 vLVPopupList",
+		["ID","Pos","Title","Text"])
+	SetTimer PopupListViewUpdate.Bind(Main,MainOverlay,LVPopups), 250
+
+PopupListViewUpdate(Main, MainOverlay, LV) {
+	If Main["Tab"].Value != 2
+		return
+
+	NewItems := ""
+	For ID, item in MainOverlay.Popups
+		NewItems .= ID "|"
+
+	KillItems := [], UpdateItems := Map()
+	Loop LV.GetCount()
+		If RegExMatch(NewItems, thisID := LV.GetText(A_Index),&m) {
+			NewItems := StrReplace(NewItems, thisID "|")
+			UpdateItems[thisID] := A_Index
+		}
+		Else
+			KillItems.InsertAt(1,A_Index)
+
+	For row in KillItems
+		LV.Delete(row)
+
+	For id, row in UpdateItems
+		LV.Modify(row,"Col2",
+			MainOverlay.Popups[id].Pos,
+			MainOverlay.Popups[id].SubElement["title"].innerText,
+			MainOverlay.Popups[id].SubElement["content"].innerText
+		)
+
+	For id in StrSplit(NewItems,"|")
+		if StrLen(id)
+			LV.Add(,ID,
+				MainOverlay.Popups[id].Pos,
+				MainOverlay.Popups[id].SubElement["title"].innerText,
+				MainOverlay.Popups[id].SubElement["content"].innerText
+			)
+}
+
+opacitySlider_Change(ctrl,*) {
+	MainOverlay.opacity := ctrl.Value
+	ctrl.gui["opacityText"].Value := ctrl.Value
+}
+
+mtab.UseTab(3)
 	global csspad
 	main.SetFont(,"Fira Code")
 	(csspad := Main.AddEdit("w300 r18 -wrap +hscroll +wantTab multi vCSS",))
@@ -91,7 +157,7 @@ CSS_Edit(ctrl,*) {
 }
 CssGui["CSS"].Value := csspad.Value := WindowNotifyOverlay.DEFAULT_CSS
 
-mtab.UseTab(3)
+mtab.UseTab(4)
 
 	main.marginx := main.marginy := 4
 	main.SetFont("underline s8","Fira Code")
@@ -129,7 +195,7 @@ mtab.UseTab(3)
 
 	main.SetFont()
 
-mtab.UseTab(4)
+mtab.UseTab(5)
 
 createTabGui()
 createTabGui() {
@@ -167,7 +233,7 @@ createTabGui() {
 	main.AddCheckBox("xs+250 yp-21 w50 vnewPosRnd","Rnd")
 
 	main.AddText("xs w40", "Show ")
-	main.AddComboBox("x+5 w200 vnewShowAnim", ["",
+	main.AddComboBox("x+5 w200 vnewShowAnim", ["", "auto",
 		"in-slide-t", "in-slide-b", "in-slide-l", "in-slide-r",
 		"in-roll-h" , "in-roll-v" ,
 		"in-roll-t" , "in-roll-b" , "in-roll-l" , "in-roll-r" ,
@@ -179,7 +245,7 @@ createTabGui() {
 	main.AddCheckbox("xp-50 yp w50 vnewStay","Stay")
 
 	main.AddText("xs w40", "Hide ")
-	main.AddComboBox("x+5 w200 vnewHideAnim", ["",
+	main.AddComboBox("x+5 w200 vnewHideAnim", ["", "auto",
 		"out-slide-t", "out-slide-b", "out-slide-l", "out-slide-r",
 		"out-roll-h" , "out-roll-v" ,
 		"out-roll-t" , "out-roll-b" , "out-roll-l" , "out-roll-r" ,
@@ -191,14 +257,16 @@ createTabGui() {
 	main.AddCheckbox("x+0 wp vnewLinkClickEvent","LinkClick event")
 
 	(btnSimple  := main.AddButton("xs+45","Add Simple"))
-	.OnEvent("Click", newPopup)
+	.OnEvent("Click", newPopupTimer)
 	(btnAdvance := main.AddButton("x+5","Add-vanced"))
-	.OnEvent("Click", newPopup)
+	.OnEvent("Click", newPopupTimer)
 
-	newPopup(ctrl,*) {
+	newPopupTimer(ctrl,props) {
 		local myPopup
 		props := main.submit(0)
-		Sleep -1
+		SetTimer  newPopup.Bind(ctrl, props), -1
+	}
+	newPopup(ctrl,props) {
 		title := (props.newTitleHTML ? "HTML:" : "") props.newTitle
 		text  := (props.newTextHTML  ? "HTML:" : "") props.newText
 		icon  := props.newIconRnd ? svgList[Random(1,svgList.length)] : props.newIcon
@@ -230,14 +298,6 @@ createTabGui() {
 
 mtab.UseTab()
 
-opacitySlider_Change(ctrl,*) {
-	MainOverlay.opacity := ctrl.Value
-	ctrl.gui["opacityText"].Value := ctrl.Value
-}
-
-Main.AddSlider("xm y356 w250 range0-255 AltSubmit TickInterval16 ToolTip", MainOverlay.opacity)
-	.OnEvent("Change",opacitySlider_Change)
-Main.AddText("x+0 yp hp w50 right 0x200 vopacityText", MainOverlay.opacity)
 
 global TabDlgHwnd
 getTabDlgHwnd(mtab, &TabDlgHwnd)
@@ -258,7 +318,7 @@ getTabDlgHwnd(tabCtrl, &targetHwnd) {
 }
 
 Main.Show("AutoSize")
-mTab.Value := 3
+mTab.Value := 4 ; test
 
 Main_Size(main, minmax, *) {
 	critical
@@ -308,28 +368,40 @@ Main_Size(main, minmax, *) {
 	;SendMessage(WM_SETREDRAW, True, 0, TabDlgHwnd) ; enable redraw
 }
 
-CtrlBind(Ctrl, obj, prop) {
+CtrlBind(Ctrl, obj, prop, getter?, setter?) {
 	static focusGettingValue
 	OnFocus()
 	ctrl.OnEvent("Focus", OnFocus)
-	ctrl.OnEvent("Change", OnChange)
+	ctrl.OnEvent(ctrl.Type="Radio" ? "Click" : "Change", OnChange)
 	OnFocus(*) {
 		focusGettingValue := true
 
-		If ctrl.Type ~= "Edit|DDL"
-			ctrl.Text := obj.%prop%
+		value := isset(getter) ? getter(obj.%prop%) : obj.%prop%
+		If ctrl.Type ~= "Edit|DDL|ComboBox"
+			ctrl.Text := value
 		Else
-			ctrl.Value := obj.%prop%
+			ctrl.Value := value
+
 		focusGettingValue := false
 	}
 	OnChange(*) {
 		If focusGettingValue
 			return
-		If ctrl.Type ~= "Edit|DDL"
-			obj.%prop% := StrReplace(ctrl.Text,"`n","`r`n")
+		If ctrl.Type ~= "Edit|DDL|ComboBox"
+			value := StrReplace(ctrl.Text,"`n","`r`n")
 		Else
-			obj.%prop% := ctrl.Value
+			value := ctrl.Value
+
+		obj.%prop% := isset(setter) ? setter(value) : value
 	}
+}
+
+MapGetKeys(iMap) {
+	result := []
+	enumerable := iMap is Object ? iMap.OwnProps() : iMap
+	for key, _ in enumerable
+		result.Push(key)
+	return result
 }
 
 #HotIf WinActive(Main) || WinActive(CssGui)
