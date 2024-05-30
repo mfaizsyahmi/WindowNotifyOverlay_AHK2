@@ -182,9 +182,11 @@ Class WindowNotifyOverlay {
 	}
 	.popup .row {display:table-row;}
 	.popup .side {display:table-cell; width:20px; text-align:center;
+				  font-family: Noto Sans Emoji, Segoe UI Emoji, sans-serif;
 				  padding:2px; margin-right:6px }
 	.popup .side:empty {display:none}
-	.popup .side img {width:18px;height:18px;}
+	.popup .side img {width:16px;height:16px;}
+	.popup .side img.s18 {width:18px;height:18px;}
 	.popup .main {display:table-cell;padding: 2px 6px;vertical-align:top;}
 	.popup .title {font-weight: 700;}
 
@@ -314,95 +316,19 @@ Class WindowNotifyOverlay {
 		DEFAULT : "000000"}
 
 	/** Stores the SVG icons. Includes aliases. Case insensitive.
+	 * NOTE: MOVED TO WindowNotifyOverlay_icons.ahk
 	 * @type {WindowNotifyOverlay.MapWith}
 	 * @enum {string}
 	 */
 	static SvgIconMap := this.MapWith()
 	.With((self) => self.CaseSense := 0)
-	.With((self) => self.Set(
-"Alert",
-"<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18'><defs><style>.canvas{fill: none; opacity: 0;}.light-blue{fill: #005dba; opacity: 1;}.white{fill: #ffffff; opacity: 1;}</style></defs><title>StatusAlert.18.18</title><title>IconLightStatusAlert.18.18</title><g id='canvas'><path class='canvas' d='M18,18H0V0H18Z'/></g><g id='level-1'><path class='light-blue' d='M10.926,17H8.074l-.707-.293L1.793,11.133,1.5,10.426V7.574l.293-.707L7.367,1.293,8.074,1h2.852l.707.293,5.574,5.574.293.707v2.852l-.293.707-5.574,5.574Z'/><path class='white' d='M10,10H9V4h1Zm-.5,1.75a.75.75,0,1,0,.75.75A.75.75,0,0,0,9.5,11.75Z'/></g></svg>",
-
-"Error",
-"<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18'><defs><style>.canvas{fill: none; opacity: 0;}.light-red{fill: #c50b17; opacity: 1;}.white{fill: #ffffff; opacity: 1;}</style></defs><title>StatusError.18.18</title><title>StatusError.18.18</title><g id='canvas'><path class='canvas' d='M18,18H0V0H18Z'/></g><g id='level-1'><path class='light-red' d='M9,1a8,8,0,1,0,8,8A8.008,8.008,0,0,0,9,1Z'/><path class='white' d='M9.884,9l3.558,3.558-.884.884L9,9.884,5.442,13.442l-.884-.884L8.116,9,4.558,5.442l.884-.884L9,8.116l3.558-3.558.884.884Z'/></g></svg>",
-
-"Excluded",
-"<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18'><defs><style>.canvas{fill: none; opacity: 0;}.light-red{fill: #c50b17; opacity: 1;}.white{fill: #ffffff; opacity: 1;}</style></defs><title>StatusExcluded.18.18</title><title>IconLightStatusExcluded.18.18</title><g id='canvas'><path class='canvas' d='M18,18H0V0H18Z'/></g><g id='level-1'><path class='light-red' d='M9,1a8,8,0,1,0,8,8A8.009,8.009,0,0,0,9,1Z'/><path class='white' d='M14,10H4V8H14Z'/></g></svg>",
-
-"Help",
-"<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18'><defs><style>.canvas{fill: none; opacity: 0;}.light-blue{fill: #005dba; opacity: 1;}.white{fill: #ffffff; opacity: 1;}</style></defs><title>StatusHelp.18.18</title><title>StatusHelp.18.18</title><g id='canvas'><path class='canvas' d='M18,18.079H-.079V0H18Z'/></g><g id='level-1'><path class='light-blue' d='M8.961,16.874A7.835,7.835,0,1,1,16.8,9.039,7.844,7.844,0,0,1,8.961,16.874Z'/><path class='white' d='M10,13.5a1,1,0,1,1-1-1A1,1,0,0,1,10,13.5Z'/><path class='white' d='M12.164,6.48a2.833,2.833,0,0,0-.924-2.09,3.311,3.311,0,0,0-3.612-.581,2.883,2.883,0,0,0-1.8,2.515H7.181a1.618,1.618,0,0,1,.461-.988,1.888,1.888,0,0,1,1.407-.571,1.838,1.838,0,0,1,1.244.516,1.656,1.656,0,0,1,.518,1.2,1.031,1.031,0,0,1-.213.728A5.821,5.821,0,0,1,9.551,8.293a3.726,3.726,0,0,0-.631.621,3.177,3.177,0,0,0-.433.731,2.363,2.363,0,0,0-.17.925V11H9.658a3.357,3.357,0,0,1,.08-.867,1.215,1.215,0,0,1,.372-.589c.174-.169.351-.33.522-.486C11.488,8.278,12.164,7.663,12.164,6.48Z'/></g></svg>",
-
-"Information",
-"<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18'><defs><style>.canvas{fill: none; opacity: 0;}.light-blue{fill: #005dba; opacity: 1;}.white{fill: #ffffff; opacity: 1;}</style></defs><title>StatusInformation.18.18</title><title>StatusInformation.18.18</title><g id='canvas'><path class='canvas' d='M18,18H0V0H18Z'/></g><g id='level-1'><path class='light-blue' d='M8.5,17a8,8,0,1,1,8-8A8.009,8.009,0,0,1,8.5,17Z'/><path class='white' d='M8,8H9v5H8Zm.5-3.25a.75.75,0,1,0,.75.75A.75.75,0,0,0,8.5,4.75Z'/></g></svg>",
-
-"InformationOutline",
-"<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18'><defs><style>.canvas{fill: none; opacity: 0;}.light-blue-10{fill: #005dba; opacity: 0.1;}.light-blue{fill: #005dba; opacity: 1;}</style></defs><title>StatusInformationOutline.18.18</title><title>StatusInformationOutline.18.18</title><g id='canvas'><path class='canvas' d='M18,18H0V0H18Z'/></g><g id='level-1'><path class='light-blue-10' d='M8.5,16.5A7.5,7.5,0,1,1,16,9,7.509,7.509,0,0,1,8.5,16.5Z'/><path class='light-blue' d='M8.5,17a8,8,0,1,1,8-8A8.009,8.009,0,0,1,8.5,17Zm0-15a7,7,0,1,0,7,7A7.008,7.008,0,0,0,8.5,2Z'/><path class='light-blue' d='M8,8.025H9V14H8ZM8.5,4.9a.75.75,0,1,0,.75.75A.75.75,0,0,0,8.5,4.9Z'/></g></svg>",
-
-"Invalid",
-"<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18'><defs><style>.canvas{fill: none; opacity: 0;}.light-red{fill: #c50b17; opacity: 1;}.white{fill: #ffffff; opacity: 1;}</style></defs><title>StatusInvalid.18.18</title><title>IconLightStatusInvalid.18.18</title><g id='canvas'><path class='canvas' d='M0,0H18V18H0Z'/></g><g id='level-1'><path class='light-red' d='M8.5,1a8,8,0,1,1-8,8A8.009,8.009,0,0,1,8.5,1Z'/><path class='white' d='M9,11H8V5H9Zm-.5,1.75a.75.75,0,1,0,.75.75A.75.75,0,0,0,8.5,12.75Z'/></g></svg>",
-
-"No",
-"<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18'><defs><style>.canvas{fill: none; opacity: 0;}.light-red-10{fill: #c50b17; opacity: 0.1;}.light-red{fill: #c50b17; opacity: 1;}</style></defs><title>StatusNo.18.18</title><title>IconLightStatusNo.18.18</title><g id='canvas'><path class='canvas' d='M18,18H0V0H18Z'/></g><g id='level-1'><path class='light-red-10' d='M16.5,9A7.5,7.5,0,1,1,9,1.5,7.5,7.5,0,0,1,16.5,9Z'/><path class='light-red' d='M9,1a8,8,0,1,0,8,8A8.009,8.009,0,0,0,9,1ZM2,9A6.963,6.963,0,0,1,3.716,4.423l9.861,9.861A6.99,6.99,0,0,1,2,9Zm12.284,4.577L4.423,3.716a6.99,6.99,0,0,1,9.861,9.861Z'/></g></svg>",
-
-"Offline",
-"<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18'><defs><style>.canvas{fill: none; opacity: 0;}.light-red{fill: #c50b17; opacity: 1;}</style></defs><title>StatusOffline.18.18</title><title>IconLightStatusOffline.18.18</title><g id='canvas'><path class='canvas' d='M18,18H0V0H18Z'/></g><g id='level-1'><path class='light-red' d='M9.707,9l4.147,4.146-.708.708L9,9.707,4.854,13.854l-.708-.708L8.293,9,4.146,4.854l.708-.708L9,8.293l4.146-4.147.708.708Z'/></g></svg>",
-
-"OK",
-"<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18'><defs><style>.canvas{fill: none; opacity: 0;}.light-green{fill: #1f801f; opacity: 1;}.white{fill: #ffffff; opacity: 1;}</style></defs><title>StatusOK.18.18</title><title>IconLightStatusOK.18.18</title><g id='canvas'><path class='canvas' d='M18,18H0V0H18Z'/></g><g id='level-1'><path class='light-green' d='M17,9A8,8,0,1,1,9,1,8.008,8.008,0,0,1,17,9Z'/><path class='white' d='M8,12.207,4.646,8.854l.708-.708L8,10.793l5.146-5.147.708.708Z'/></g></svg>",
-
-"Paused",
-"<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18'><defs><style>.canvas{fill: none; opacity: 0;}.light-blue{fill: #005dba; opacity: 1;}.white{fill: #ffffff; opacity: 1;}</style></defs><title>StatusPaused.18.18</title><title>IconLightStatusPaused.18.18</title><g id='canvas'><path class='canvas' d='M18,18H0V0H18Z'/></g><g id='level-1'><path class='light-blue' d='M9,1a8,8,0,1,0,8,8A8.008,8.008,0,0,0,9,1Z'/><path class='white' d='M7,12H6V6H7Z'/><path class='white' d='M12,12H11V6h1Z'/></g></svg>",
-
-"Required",
-"<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 16 16'><defs><style>.canvas{fill: none; opacity: 0;}.light-red{fill: #c50b17; opacity: 1;}.white{fill: #ffffff; opacity: 1;}</style></defs><title>StatusRequired</title><g id='canvas' class='canvas'><path class='canvas' d='M16,16H0V0H16Z'/></g><g id='level-1'><path class='light-red' d='M14,7.5A6.5,6.5,0,1,1,7.5,1,6.508,6.508,0,0,1,14,7.5Z'/><path class='white' d='M10.935,6.444,8.594,7.5,10.93,8.557l-.8,1.391-2.084-1.5L8.3,11H6.7l.249-2.553-2.084,1.5-.8-1.391L6.406,7.5,4.068,6.443l.8-1.391,2.084,1.5L6.7,4H8.3L8.051,6.553l2.084-1.5Z'/></g></svg>",
-
-"Running",
-"<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18'><defs><style>.canvas{fill: none; opacity: 0;}.light-green{fill: #1f801f; opacity: 1;}.white{fill: #ffffff; opacity: 1;}</style></defs><title>StatusRunning.18.18</title><title>IconLightStatusRunning.18.18</title><g id='canvas'><path class='canvas' d='M18,18H0V0H18Z'/></g><g id='level-1'><path class='light-green' d='M9,2a7,7,0,1,0,7,7A7.006,7.006,0,0,0,9,2Z'/><path class='white' d='M7,12.5v-7l5.5,3.477Z'/></g></svg>",
-
-"Stopped",
-"<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18'><defs><style>.canvas{fill: none; opacity: 0;}.light-red{fill: #c50b17; opacity: 1;}.white{fill: #ffffff; opacity: 1;}</style></defs><title>StatusStopped.18.18</title><title>IconLightStatusStopped.18.18</title><g id='canvas'><path class='canvas' d='M18,18H0V0H18Z'/></g><g id='level-1'><path class='light-red' d='M9,17a8,8,0,1,1,8-8A8.009,8.009,0,0,1,9,17Z'/><path class='white' d='M6,6h6v6H6Z'/></g></svg>",
-
-"Warning",
-"<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 18 18'><defs><style>.canvas{fill: none; opacity: 0;}.light-yellow{fill: #996f00; opacity: 1;}.white{fill: #ffffff; opacity: 1;}</style></defs><title>StatusWarning.18.18</title><title>IconLightStatusWarning.18.18</title><g id='canvas'><path class='canvas' d='M18,18H0V0H18Z'/></g><g id='level-1'><path class='light-yellow' d='M16.708,16H2.292L1.5,14.633,8.708,1.2h1.584L17.5,14.633Z'/><path class='white' d='M10,11H9V5h1Zm-.5,1.75a.75.75,0,1,0,.75.75A.75.75,0,0,0,9.5,12.75Z'/></g></svg>",
-	)).With((self) => self.Set(
-		; additional aliases being assigned to existing items, while still being
-		; in the same static initialization scope
-		"!",   self["Alert"],
-		"E",   self["Error"],
-		"-",   self["Excluded"],
-		"?",   self["Help"],
-		"I",   self["Information"],
-		"Inv", self["Invalid"],
-		"NO",  self["No"],
-		"OK",  self["OK"],
-		"PP",  self["Paused"],
-		"*",   self["Required"],
-		"PR",  self["Running"],
-		"PS",  self["Stopped"],
-		"W",   self["Warning"]
-	))
 
 	/** Associates icon names (and their aliases) to a theme name. Case insensitive.
+	 * NOTE: MOVED TO WindowNotifyOverlay_icons.ahk
 	 * @type {WindowNotifyOverlay.MapWith}
 	 */
 	Static PopupThemeAssocMap := this.MapWith()
 	.With((self) => self.CaseSense := 0)
-	.With((self) => self.Set(
-		; TODO: update this
-		"Alert",		"info",		"!",	"info",
-		"Error",		"error",	"E",	"error",
-		"Excluded",		"error",	"-",	"error",
-		"Help",			"info",		"?",	"info",
-		"Information",	"info",		"I",	"info",
-		"Invalid",		"warning",	"Inv",	"warning",
-		"No",			"error",	"NO",	"error",
-		"OK",			"message",	"OK",	"message",
-		"Paused",		"info",		"PP",	"info",
-		"Required",		"warning",	"*",	"warning",
-		"Running",		"message",	"PR",	"message",
-		"Stopped",		"error",	"PS",	"error",
-		"Warning",		"warning",	"W",	"warning"
-	))
 
 	/** @typedef {integer} HWND handle to a window */
 	/** @typedef {(HWND|Gui)} GuiOrHWND */
@@ -593,7 +519,8 @@ Class WindowNotifyOverlay {
 		get => this._popuptpl
 		set => this._popuptpl := value
 	}
-
+	
+	_csscolor(val) => val ~= "^[0-9a-f]+$" ? "#" val : val
 	/** GETTER
 	 * @property
 	 * @returns {string} Colour name or RGB HEX value of the transparency
@@ -605,10 +532,13 @@ Class WindowNotifyOverlay {
 	TransColor[*] {
 		get => this.hasProp("_transColor") ? this._transColor : this.overlayGui.BackColor
 		set {
-			this.overlayGui.BackColor := this._transColor := value
-			this.css := RegExReplace(this.css, "(\/\*BGMARKER\*\/)(.*)\1",
-				"$1background-color: #" value " !important;$1")
-			WinSetTransColor Value " " this.opacity, this.overlayGui
+			valfix := this._csscolor(value)
+			this.overlayGui.BackColor := this._transColor := Value
+			;this.css := RegExReplace(this.css, "(\/\*BGMARKER\*\/)(.*)\1",
+			;"$1background-color: #" valfix " !important;$1")
+			this.Doc.documentElement.style.backgroundColor := valfix " !important"
+			this.Doc.body.style.backgroundColor := valfix " !important"
+			Try WinSetTransColor Value " " this.opacity, this.overlayGui
 		}
 	}
 
@@ -703,6 +633,20 @@ Class WindowNotifyOverlay {
 	}
 
 	/**
+	 * Clears popups in position, or all of them
+	 */
+	Clear(pos?) {
+		itemsToRemove := []
+		For id, popupInst in this.Popups
+			if IsSet(pos) && popupInst.Pos != pos
+				Continue
+			Else
+				itemsToRemove.Push(popupInst)
+		For popupInst in itemsToRemove
+			popupInst.Remove()
+	}
+
+	/**
 	 * WindowNotifyOverlay.Popup
 	 *	Default popup class for WindowNotifyOverlay
 	 *	This class is designed to be chainable. good ol' jquery paradigm.
@@ -712,6 +656,10 @@ Class WindowNotifyOverlay {
 	 * Static Class Properties:
 	 *	qsMap		: Map[str,str]
 	 *	autoAnimMap	: Map[str,str]
+	 *  DefaultTitle: String
+	 *  DefaultIcon	: String
+	 *  DefaultTheme: String
+	 *  DefaultPos	: String
 	 *
 	 * Constructor:
 	 *	__New(owner,ID,text,title:="",icon:="",theme:="",pos:="") -> instance
@@ -730,6 +678,7 @@ Class WindowNotifyOverlay {
 	 *	SetItemStyle(target:="popup", styleStr?) -> self
 	 *	SetFont(options?, name?, target:="popup") -> self
 	 *	SetTextAlign(textAlign:="l", target:="popup") -> self
+	 *	SetIconSize(w?, h?) -> self
 	 *	OnEvent(name, callable) -> self
 	 *	InsertAt(pos) -> self
 	 *	Show(animationClass := "", wait := 300) -> self
@@ -758,6 +707,12 @@ Class WindowNotifyOverlay {
 		static autoAnimMap := Map( ; per-position default animation
 			"tl","slide-l",  "tc","slide-t",  "tr","slide-r",
 			"bl","slide-l",  "bc","slide-b",  "br","slide-r" )
+			
+		; Set these values to make popups use them by default
+		static DefaultTitle := ""
+		static DefaultIcon := ""
+		static DefaultTheme := "default"
+		static DefaultPos := "bl"
 
 		/**
 		 * Popup constructor
@@ -796,14 +751,32 @@ Class WindowNotifyOverlay {
 		__New(owner,ID,text,title:="",icon:="",theme:="",pos:="") {
 			this.owner := owner, this.ID := ID
 
+			; set defaults if set in static class
+			For name, val in {Title:title, Icon:icon, Theme:theme, Pos:pos}.OwnProps()
+			If !StrLen(val) && StrLen(this.__Static.Default%name%)
+				val := this.__Static.Default%name%
+			/*
+			If !StrLen(title) && StrLen(this.__Static.DefaultTitle)
+				title := this.__Static.DefaultTitle
+			If !StrLen(icon) && StrLen(this.__Static.DefaultIcon)
+				icon := this.__Static.DefaultIcon
+			If !StrLen(theme) && StrLen(this.__Static.DefaultTheme)
+				theme := this.__Static.DefaultTheme
+			If !StrLen(pos) && StrLen(this.__Static.DefaultPos)
+				pos := this.__Static.DefaultPos
+			*/
+
 			; icon to side content
-			If FileExist(icon)
+			If icon ~="i)^html:"
+				sideHtml := RegExReplace(icon,"i)^html:")
+			Else If FileExist(icon)
 				sideHtml := '<img src="file://' owner._encUrl(StrReplace(icon,"\","/")) '">'
 			Else If icon ~= "i)^https?://|^data:image/"
 				sideHtml := '<img src="' icon '">' ; "
 			Else If owner.__Static.SvgIconMap.Has(icon)
-				sideHtml := '<img src="data:image/svg+xml;base64,'
-					. owner.wnd.btoa(owner.__Static.SvgIconMap[icon])  '">'
+				sideHtml := Format('<img src="data:image/svg+xml;base64,{}" class="{}">',
+					owner.wnd.btoa(owner.__Static.SvgIconMap[icon]),
+					icon ~= "18$" ? "s18" : "")
 			Else If icon ~= "^\s+$"
 				sideHtml := A_Space
 			Else
@@ -982,7 +955,7 @@ Class WindowNotifyOverlay {
 
 			return this.SetItemStyle(target, cssProps)
 		}
-
+		
 		/**
 		 * Sets text alignment for the whole popup or a sub-element.
 		 *
@@ -1000,6 +973,28 @@ Class WindowNotifyOverlay {
 				Throw ValueError("Unknown value given. Must be <L|C|R>.", -1)
 			this.SubElement[target].className := RegExReplace(this.popupEl.className, "i)ta-\w")
 				. " ta-" StrLower(textAlign)
+			return this
+		}
+
+		/**
+		 * Sets size of the side image
+		 *
+		 * @param {string} [w] - width in CSS units (or px if omitted)
+		 * @param {string} [h] - height in CSS units (or px if omitted)
+		 *
+		 * @returns {WindowNotifyOverlay.Popup} self
+		 */
+		SetIconSize(w?,h?) {
+			if !IsSet(w) && !IsSet(h)
+				return
+				
+			css := ""
+			if IsSet(w)
+				css .= "width:" w (w~="[\w%]+$" ? "" : "px") ";"
+			if IsSet(h)
+				css .= "height:" h (h~="[\w%]+$" ? "" : "px") ";"
+				
+			this.CSS .= Trim(Format("#{1} .side img {{}{2}{}} ", this.ID, css))
 			return this
 		}
 
@@ -1099,7 +1094,11 @@ Class WindowNotifyOverlay {
 		 * @returns {WindowNotifyOverlay.Popup} self
 		 */
 		Show(animationClass := "", wait := 300) {
-			if StrLen(Trim(animationClass)) {
+			If animationClass = "auto" {
+				this.SubElement["popupSlot"].classList
+				.add("in-" this.__Static.autoAnimMap[this.pos])
+			}
+			Else if StrLen(Trim(animationClass)) {
 				this.SubElement["popupSlot"].classList.add(animationClass)
 				this.EventMap["Click"] := (*) => this.Hide(
 					RegExReplace(animationClass,"i)in-","out-"))
@@ -1163,12 +1162,13 @@ Class WindowNotifyOverlay {
 			popupEl := this.SubElement["popupSlot"]
 			popupEl.className := RegExReplace(popupEl.className, "i)in-[\w-]\b")
 
-			;popupEl.className .= " " (StrLen(Trim(animationClass)) ? animationClass : "hidden")
+			If animationClass = "auto"
+				animationClass := "out-" this.__Static.autoAnimMap[this.pos]
 			boundAsync := ((c)=>popupEl.classList.add(c))
 				.Bind(StrLen(Trim(animationClass)) ? animationClass : "hidden")
 			SetTimer boundAsync, -1
 
-			if deleteAfter is number && deleteAfter >= 0
+			if deleteAfter >= 0
 				SetTimer ObjBindMethod(this,"Remove"), -deleteAfter
 			return this
 		}
@@ -1195,3 +1195,12 @@ Class WindowNotifyOverlay {
 	}
 
 }
+
+; The SVG icon set is in this separate file.
+; To include them on every import of this library everywhere it's used, 
+;   uncomment the following #Include line.
+; To exclude them, comment out the following #Include line.
+; Alternatively, include the following #include line yourself below the #include
+;   directive to this library, in scripts where and when you want to use them.
+;
+; #Include WindowNotifyOverlay_icons.ahk
