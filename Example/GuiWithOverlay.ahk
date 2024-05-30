@@ -44,7 +44,10 @@ MainOverlay.opacity := 240
 ; desktopHwnd := WinGetId("ahk_class Progman")
 ; yyy := WindowNotifyOverlay(desktopHwnd)
 
-pad := [MainOverlay.Popup("padding1",,,,"TL").Show(),MainOverlay.Popup("padding2",,,,"TL").Show()]
+pad := [
+	MainOverlay.Popup("padding1",,,,"TL").Show(),
+	MainOverlay.Popup("padding2",,,,"TL").Show()
+]
 test := MainOverlay.Popup("HTML:TEST and a <a href='#asdf'>link</a>","TITLE","InformationOutline",,"TL")
 	.SetFont("italic","cursive","title")
 	.Show()
