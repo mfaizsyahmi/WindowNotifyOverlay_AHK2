@@ -711,7 +711,7 @@ Class WindowNotifyOverlay {
 		; Set these values to make popups use them by default
 		static DefaultTitle := ""
 		static DefaultIcon := ""
-		static DefaultTheme := "default"
+		static DefaultTheme := "" ; will infer from icon first before loading this
 		static DefaultPos := "bl"
 
 		/**
@@ -752,7 +752,8 @@ Class WindowNotifyOverlay {
 			this.owner := owner, this.ID := ID
 
 			; set defaults if set in static class
-			For name, val in {Title:title, Icon:icon, Theme:theme, Pos:pos}.OwnProps()
+			; EXCLUDES theme to let it infer from icon first before loading the default!
+			For name, val in {Title:title, Icon:icon, Pos:pos}.OwnProps()
 			If !StrLen(val) && StrLen(this.__Static.Default%name%)
 				val := this.__Static.Default%name%
 			/*
@@ -787,7 +788,9 @@ Class WindowNotifyOverlay {
 				popupThemeClass := "popup-" trim(theme)
 			Else If !StrLen(theme) && owner.__Static.PopupThemeAssocMap.Has(icon)
 				popupThemeClass := "popup-" owner.__Static.PopupThemeAssocMap[icon]
-			Else
+			Else If !StrLen(theme) && StrLen(this.__Static.DefaultTheme)
+				popupThemeClass := this.__Static.DefaultTheme
+			Else 
 				popupThemeClass := "popup-default"
 
 			tempContainer := owner.doc.createElement("div")
@@ -988,11 +991,10 @@ Class WindowNotifyOverlay {
 			if !IsSet(w) && !IsSet(h)
 				return
 				
-			css := ""
-			if IsSet(w)
-				css .= "width:" w (w~="[\w%]+$" ? "" : "px") ";"
-			if IsSet(h)
-				css .= "height:" h (h~="[\w%]+$" ? "" : "px") ";"
+			w := IsSet(w) ? w : "auto"
+			h := IsSet(h) ? h : "auto"
+			css := "width:" w (w~="[\w%]+$" ? "" : "px") ";"
+				.  "height:" h (h~="[\w%]+$" ? "" : "px") ";"
 				
 			this.CSS .= Trim(Format("#{1} .side img {{}{2}{}} ", this.ID, css))
 			return this
