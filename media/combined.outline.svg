@@ -1,0 +1,175 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" style="width:16px;height:16px">
+  <defs>
+    <style>
+g{display:none;}
+g:target,g:target g{display:inline;}
+.canvas{fill: none; opacity: 0;}
+.light-blue-10{fill: #005dba; opacity: 0.1;}
+.light-blue{fill: #005dba; opacity: 1;}
+.light-red-10{fill: #c50b17; opacity: 0.1;}
+.light-red{fill: #c50b17; opacity: 1;}
+.light-defaultgrey-10{fill: #212121; opacity: 0.1;}
+.light-defaultgrey{fill: #212121; opacity: 1;}
+.light-green-10{fill: #1f801f; opacity: 0.1;}
+.light-green{fill: #1f801f; opacity: 1;}
+.light-yellow-10{fill: #996f00; opacity: 0.1;}
+.light-yellow{fill: #996f00; opacity: 1;}
+    </style>
+  </defs>
+
+  <g id="IconStatusAlert">
+    <title>StatusAlertOutline</title>
+    <g id="StatusAlert-canvas">
+      <path class="canvas" d="M16,16H0V0H16Z" />
+    </g>
+    <g id="StatusAlert-level-1">
+      <path class="light-blue-10" d="M13,6.375v2.25L8.625,13H6.375L2,8.625V6.375L6.375,2h2.25Z" />
+      <path class="light-blue" d="M13.354,6.021,8.979,1.646,8.625,1.5H6.375l-.354.146L1.646,6.021,1.5,6.375v2.25l.146.354,4.375,4.375.354.146h2.25l.354-.146,4.375-4.375.146-.354V6.375Zm-.854,2.4L8.418,12.5H6.582L2.5,8.418V6.582L6.582,2.5H8.418L12.5,6.582ZM8,9H7V4H8Zm.25,1.735a.75.75,0,1,1-.75-.75A.75.75,0,0,1,8.25,10.735Z" />
+    </g>
+  </g>
+
+  <g id="IconStatusError">
+    <title>IconLightStatusErrorOutline</title>
+    <g id="StatusError-canvas" class="canvas">
+      <path class="canvas" d="M16,16H0V0H16Z" />
+    </g>
+    <g id="StatusError-level-1">
+      <path class="light-red-10" d="M13.5,7.5a6,6,0,1,1-6-6A6,6,0,0,1,13.5,7.5Z" />
+      <path class="light-red" d="M7.5,1A6.5,6.5,0,1,0,14,7.5,6.508,6.508,0,0,0,7.5,1Zm0,12A5.5,5.5,0,1,1,13,7.5,5.506,5.506,0,0,1,7.5,13Z" />
+      <path class="light-red" d="M8.207,7.5l2.4,2.4L9.9,10.6l-2.4-2.4L5.1,10.6,4.4,9.9l2.4-2.4L4.4,5.1,5.1,4.4l2.4,2.4L9.9,4.4,10.6,5.1Z" />
+    </g>
+  </g>
+
+  <g id="IconStatusExcluded">
+    <title>IconLightStatusExcludedOutline</title>
+    <g id="StatusExcluded-canvas" class="canvas">
+      <path class="canvas" d="M16,16H0V0H16Z" />
+    </g>
+    <g id="StatusExcluded-level-1">
+      <path class="light-defaultgrey-10" d="M13.5,7.5a6,6,0,1,1-6-6A6,6,0,0,1,13.5,7.5Z" />
+      <path class="light-defaultgrey" d="M7.5,1A6.5,6.5,0,1,0,14,7.5,6.508,6.508,0,0,0,7.5,1Zm0,12A5.5,5.5,0,1,1,13,7.5,5.506,5.506,0,0,1,7.5,13Z" />
+      <path class="light-defaultgrey" d="M11,7V8H4V7Z" />
+    </g>
+  </g>
+
+  <g id="IconStatusHelp">
+    <title>StatusHelpOutline</title>
+    <g id="StatusHelp-canvas" class="canvas">
+      <path class="canvas" d="M16,16H0V0H16Z" />
+    </g>
+    <g id="StatusHelp-level-1">
+      <path class="light-blue-10" d="M13.5,7.5a6,6,0,1,1-6-6A6,6,0,0,1,13.5,7.5Z" />
+      <path class="light-blue" d="M7.5,1A6.5,6.5,0,1,0,14,7.5,6.508,6.508,0,0,0,7.5,1Zm0,12A5.5,5.5,0,1,1,13,7.5,5.506,5.506,0,0,1,7.5,13Z" />
+      <path class="light-blue" d="M7.5,3.781A2.205,2.205,0,0,1,9.688,5.969c0,1.054-.7,1.5-1.3,2.115a1.518,1.518,0,0,0-.454,1.385H7.062a2.814,2.814,0,0,1,.13-1.153,2.794,2.794,0,0,1,.746-1,3.581,3.581,0,0,0,.745-.83,1.275,1.275,0,0,0-.67-1.729,1.313,1.313,0,0,0-1.825,1.21H5.312A2.195,2.195,0,0,1,7.5,3.781ZM8.25,11.5a.75.75,0,1,1-.75-.75A.75.75,0,0,1,8.25,11.5Z" />
+    </g>
+  </g>
+
+  <g id="IconStatusInformation">
+    <title>StatusInformationOutline</title>
+    <g id="StatusInformation-canvas" class="canvas">
+      <path class="canvas" d="M16,16H0V0H16Z" />
+    </g>
+    <g id="StatusInformation-level-1">
+      <path class="light-blue-10" d="M13.5,7.5a6,6,0,1,1-6-6A6,6,0,0,1,13.5,7.5Z" />
+      <path class="light-blue" d="M7.5,1A6.5,6.5,0,1,0,14,7.5,6.508,6.508,0,0,0,7.5,1Zm0,12A5.5,5.5,0,1,1,13,7.5,5.506,5.506,0,0,1,7.5,13Z" />
+      <path class="light-blue" d="M8,11V6H7v5Zm.25-6.5a.75.75,0,1,1-.75-.75A.75.75,0,0,1,8.25,4.5Z" />
+    </g>
+  </g>
+
+  <g id="IconStatusInvalid">
+    <title>IconLightStatusInvalidOutline</title>
+    <g id="StatusInvalid-canvas" class="canvas">
+      <path class="canvas" d="M16,16H0V0H16Z" />
+    </g>
+    <g id="StatusInvalid-level-1">
+      <path class="light-red-10" d="M13.5,7.5a6,6,0,1,1-6-6A6,6,0,0,1,13.5,7.5Z" />
+      <path class="light-red" d="M7.5,1A6.5,6.5,0,1,0,14,7.5,6.508,6.508,0,0,0,7.5,1Zm0,12A5.5,5.5,0,1,1,13,7.5,5.506,5.506,0,0,1,7.5,13Z" />
+      <path class="light-red" d="M7,4V9H8V4Zm1.25,6.5a.75.75,0,1,1-.75-.75A.75.75,0,0,1,8.25,10.5Z" />
+    </g>
+  </g>
+
+  <g id="IconStatusNo">
+    <title>IconLightStatusNoOutline</title>
+    <g id="StatusNo-canvas" class="canvas">
+      <path class="canvas" d="M16,16H0V0H16Z" />
+    </g>
+    <g id="StatusNo-level-1">
+      <path class="light-defaultgrey-10" d="M13.5,7.5a6,6,0,1,1-6-6A6,6,0,0,1,13.5,7.5Z" />
+      <path class="light-defaultgrey" d="M7.5,1A6.5,6.5,0,1,0,14,7.5,6.508,6.508,0,0,0,7.5,1Zm0,12A5.5,5.5,0,1,1,13,7.5,5.506,5.506,0,0,1,7.5,13Z" />
+      <path class="light-defaultgrey" d="M11.724,11.017a5.621,5.621,0,0,1-.707.707L3.276,3.983a5.621,5.621,0,0,1,.707-.707Z" />
+    </g>
+  </g>
+
+  <g id="IconStatusOK">
+    <title>IconLightStatusOKOutline</title>
+    <g id="StatusOK-canvas" class="canvas">
+      <path class="canvas" d="M16,16H0V0H16Z" />
+    </g>
+    <g id="StatusOK-level-1">
+      <path class="light-green-10" d="M13.5,7.5a6,6,0,1,1-6-6A6,6,0,0,1,13.5,7.5Z" />
+      <path class="light-green" d="M7.5,1A6.5,6.5,0,1,0,14,7.5,6.508,6.508,0,0,0,7.5,1Zm0,12A5.5,5.5,0,1,1,13,7.5,5.506,5.506,0,0,1,7.5,13Z" />
+      <path class="light-green" d="M11.354,5.854l-4.5,4.5H6.146l-2.5-2.5.708-.708L6.5,9.293l4.146-4.147Z" />
+    </g>
+  </g>
+
+  <g id="IconStatusPaused">
+    <title>StatusPausedOutline</title>
+    <g id="StatusPaused-canvas" class="canvas">
+      <path class="canvas" d="M16,16H0V0H16Z" />
+    </g>
+    <g id="StatusPaused-level-1">
+      <path class="light-blue-10" d="M13.5,7.5a6,6,0,1,1-6-6A6,6,0,0,1,13.5,7.5Z" />
+      <path class="light-blue" d="M7.5,1A6.5,6.5,0,1,0,14,7.5,6.508,6.508,0,0,0,7.5,1Zm0,12A5.5,5.5,0,1,1,13,7.5,5.506,5.506,0,0,1,7.5,13Z" />
+      <path class="light-blue" d="M6,10H5V5H6Zm4,0H9V5h1Z" />
+    </g>
+  </g>
+
+  <g id="IconStatusRequired">
+    <title>StatusRequiredOutline</title>
+    <g id="StatusRequired-canvas">
+      <path class="canvas" d="M16,16H0V0H16Z" />
+    </g>
+    <g id="StatusRequired-level-1">
+      <path class="light-red-10" d="M13.5,7.5a6,6,0,1,1-6-6A6.006,6.006,0,0,1,13.5,7.5Z" />
+      <path class="light-red" d="M7.5,14A6.5,6.5,0,1,1,14,7.5,6.508,6.508,0,0,1,7.5,14Zm0-12A5.5,5.5,0,1,0,13,7.5,5.507,5.507,0,0,0,7.5,2Z" />
+      <path class="light-red" d="M10.935,6.444,8.594,7.5,10.93,8.557l-.8,1.391-2.084-1.5L8.3,11H6.7l.249-2.553-2.084,1.5-.8-1.391L6.406,7.5,4.068,6.443l.8-1.391,2.084,1.5L6.7,4H8.3L8.051,6.553l2.084-1.5Z" />
+    </g>
+  </g>
+
+  <g id="IconStatusRunning">
+    <title>IconLightStatusRunningOutline</title>
+    <g id="StatusRunning-canvas" class="canvas">
+      <path class="canvas" d="M16,16H0V0H16Z" />
+    </g>
+    <g id="StatusRunning-level-1">
+      <path class="light-green-10" d="M13.5,7.5a6,6,0,1,1-6-6A6,6,0,0,1,13.5,7.5Z" />
+      <path class="light-green" d="M7.5,1A6.5,6.5,0,1,0,14,7.5,6.508,6.508,0,0,0,7.5,1Zm0,12A5.5,5.5,0,1,1,13,7.5,5.506,5.506,0,0,1,7.5,13Z" />
+      <path class="light-green" d="M10.5,7.5,6,10.5v-6Z" />
+    </g>
+  </g>
+
+  <g id="IconStatusStopped">
+    <title>IconLightStatusStoppedOutline</title>
+    <g id="StatusStopped-canvas" class="canvas">
+      <path class="canvas" d="M16,16H0V0H16Z" />
+    </g>
+    <g id="StatusStopped-level-1">
+      <path class="light-defaultgrey-10" d="M13.5,7.5a6,6,0,1,1-6-6A6,6,0,0,1,13.5,7.5Z" />
+      <path class="light-defaultgrey" d="M7.5,1A6.5,6.5,0,1,0,14,7.5,6.508,6.508,0,0,0,7.5,1Zm0,12A5.5,5.5,0,1,1,13,7.5,5.506,5.506,0,0,1,7.5,13Z" />
+      <path class="light-defaultgrey" d="M10,5v5H5V5Z" />
+    </g>
+  </g>
+
+  <g id="IconStatusWarning">
+    <title>IconLightStatusWarningOutline</title>
+    <g id="StatusWarning-canvas" class="canvas">
+      <path class="canvas" d="M16,16H0V0H16Z" />
+    </g>
+    <g id="StatusWarning-level-1">
+      <path class="light-yellow-10" d="M14,14.5H1L7.5,2Z" />
+      <path class="light-yellow" d="M7.944,1.77H7.056l-6.5,12.5L1,15H14l.444-.73ZM1.824,14,7.5,3.084,13.176,14Z" />
+      <path class="light-yellow" d="M7.5,13.25a.75.75,0,1,1,.75-.75A.75.75,0,0,1,7.5,13.25ZM7,6v4.5H8V6Z" />
+    </g>
+  </g>
+
+</svg>

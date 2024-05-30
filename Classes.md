@@ -46,11 +46,10 @@ Uses AHK's `Format()`. Arguments:
 Name: Hex RGB value.
 
 #### `SvgIconMap`
-IconName: Svg markup (From VS2022 Icon Library).
+IconName: Svg markup. This is blank by default. `#Include WindowNotifyOverlay_icons.ahk` to populate it with some icons from VS2022 Icon Library. See [Icons.md](Icons.md) for the icons it contains.
 
 #### `PopupThemeAssocMap`
-IconName: Theme.
-
+IconName: Theme. This is blank by default. `#Include WindowNotifyOverlay_icons.ahk` to populate it with some icons from VS2022 Icon Library. See [Icons.md](Icons.md) for the association map values it adds.
 
 ### Static Class Methods
     __New() -> class
@@ -71,13 +70,10 @@ __Delete()
 ```
 
 ### Instance Properties
-#### `__Static`
-The Class prototype, - to get to the static props.
-
 #### `parentHwnd`
 `HWND` of the parent.
 
-#### `popups`
+#### `Popups`
 A `Map` where the key is a unique id, value is `WindowNotifyOverlay.Popup` instance.
 
 DO NOT add or remove items directly. Instead use the `Popup()` method to add,
@@ -135,35 +131,33 @@ Creates a popup and returns a `WindowNotifyOverlay.Popup` instance.
 – [optiona] Icon to display. Enter a local path, a URL, whitespace, or a named value.
 
     - Omitting the argument, or passing an empty string, removes the side slot where icons are displayed. To keep it open, use whitespace e.g. `A_Space`.
-    - A list of named values are in the Name and Abbr. columns below:
 
-| Name			| Abbr.	| Mock	| Theme		|
-|---------------|-------|-------|-----------|
-| `Alert`		| `!`	| <!>   | error		|
-| `Error`		| `E`	| (X)	| error		|
-| `Excluded`	| `-`	| (-)	| error		|
-| `Help`		| `?`	| (?)	| info		|
-| `Information`	| `I`	| (i)	| info		|
-| `Invalid`		| `Inv`	| (!)	| warning	|
-| `No`			| `NO`	| (\\)	| error		|
-| `OK`			| `OK`	| (/)	| message	|
-| `Paused`		| `PP`	|		| info		|
-| `Required`	| `*`	| (*)	| warning	|
-| `Running`		| `PR`	|		| message	|
-| `Stopped`		| `PS`	|		| error		|
-| `Warning`		| `W`	| /!\\	| warning	|
+	- Named values are the keys of `WindowNotifyOverlay.SvgIconMap`. This is blank by default unless `WindowNotifyOverlay_icons.ahk` is also `#Include`d.
 
 - `theme`
-– [optional] A theme to apply. Any of the words in the above table, or `default`. 
-    - If omitted or left blank, fill infer from `icon` if it contains a word from the above table, otherwise defaults to `default`.
+– [optional] A theme to apply. If omitted or left blank, fill infer from `icon` if it contains a word from the above table, otherwise defaults to `default`. 
+	- Value inference is read from `WindowNotifyOverlay.PopupThemeAssocMap` which is blank by default unless `WindowNotifyOverlay_icons.ahk` is also `#Include`d.
+	- Values:
 
-- `pos`
-– [optional] Where to place the popup. Values are: 
+|   |   |   |   |   |   |
+|---|---|---|---|---|---|
+| **Value**        | `default`  | `info` | `message` | `warning` | `error` |
+| **Color scheme** | light gray | blue   | green     | yellow    | red     |
+
+
+
+- `Pos`
+– [optional] Where to place the popup. Values: 
 
 |   |   |   |
 |---|---|---|
 |`tl` (top left)   |`tc` (top center)   |`tr` (top right)   |
 |`bl` (bottom left)|`bc` (bottom center)|`br` (bottom right)|
+
+```
+Clear(pos?)
+```
+Clears the popups from the given position, or everywhere.
 
 ## `WindowNotifyOverlay.Popup` Class
 Default popup class for `WindowNotifyOverlay`.
@@ -177,6 +171,9 @@ All popups should only be instantiated from `WindowNotifyOverlay` instance's `Po
 
 #### `autoAnimMap`
 `Map` for default animation names for each popup position (sans `in-` and `out-` prefixes).
+
+#### `DefaultTitle`, `DefaultIcon`, `DefaultTheme`, `DefaultPos`
+Default values to fill if corresponding values are left blank when calling `PopupSimple()` or `Popup()`
 
 ### Constructor/destructor
 ```
@@ -194,9 +191,6 @@ __Delete()
 ```
 
 ### Instance Properties
-#### `__Static`
-The Class prototype, - to get to the static props.
-
 #### `owner`
 The `WindowNotifyOverlay` instance that manages this popup.
 
@@ -270,6 +264,11 @@ Sets text alignment.
 - `target` takes the name of a sub-element to set font settings to. Defaults to `popup`.
 
 ```
+SetIconSize(w?,h?) -> self
+```
+Sets image size. If both values omitted, does nothing. Otherwise the omitted values will be set to `auto`. Values are in CSS units, or in `px` if omitted.
+
+```
 OnEvent(name, callable) -> self
 ```
 Sets event callback. Valid event names and arguments passed are as follows:
@@ -295,7 +294,7 @@ Show(animationClass := "", wait := 300) -> self
 ```
 Shows (or unhides) the popup. Optionally can set animation class to apply while doing so.
 
-- `animationClass` – [optional] animation class name.
+- `animationClass` – [optional] animation class name. If `auto` will use the value in `autoAnimMap`.
 - `wait` – [optional] wait before returning.
   WARNING: this is blocking, because AHK is not multithreaded.
 
@@ -316,6 +315,9 @@ Use `After()` instead.
 Hide(animationClass := "", deleteAfter := 300) -> self
 ```
 Hides the popup. Optionally can set animation class to apply while doing so.
+
+- `animationClass` – [optional] animation class name. If `auto` will use the value in `autoAnimMap`.
+- `deleteAfter` – [optional] wait before automatically calling `Remove()`. Set to a value below 0 to disable this.
 
 ```
 Remove()

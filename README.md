@@ -40,7 +40,7 @@ A sandbox example is available in [Example/GuiWithOverlay.ahk](Example/GuiWithOv
 - Layout uses HTML/CSS and can be freely configured.
 - Simple and configurable popups using method chaining.
 - Supports URL and local file as icons. 
-- Select icons from the Visual Studio 2022 Image Library also included and available to use. No external resources needed.
+- Select icons from the Visual Studio 2022 Image Library included in a separate file. Include both scripts to use it.
 - Supports HTML markup for title and text content.
 - CSS stylings for the whole document, the whole popup, or its sub-element.
 - Contextual popup themes: info (blue), message (green), warning (yellow), error (red), as well as a default.
@@ -51,8 +51,8 @@ A sandbox example is available in [Example/GuiWithOverlay.ahk](Example/GuiWithOv
 - Currently doesn't support HICON and HBITMAP icons.
 - Since the whole overlay is a single Gui window, there can be only one opacity value for the whole overlay.
 - Some CSS animations don't work properly.
-- The rendered HTML can't have any translucency as it will blend into the trans color and form a halo.
-- The HtmlDocument ActiveX control uses the old mshtml library (equivalent to IE~10) so modern web features post-IE aren't supported.
+- Translucency in any part of the HTML may cause it to blend into the trans color and form a halo.
+- The HtmlDocument ActiveX control uses the old mshtml library (equivalent to IE~10) so modern web features post-IE e.g. shadow DOM aren't supported.
 
 ## Class documentation
 See [Classes.md](Classes.md) for documentation on classes in WindowNotifyOverlay.ahk.
