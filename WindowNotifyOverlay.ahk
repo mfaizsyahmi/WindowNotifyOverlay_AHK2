@@ -722,21 +722,9 @@ Class WindowNotifyOverlay {
 		 * 		WindowNotifyOverlay's list
 		 * @param {string} text - text to display. prefix with "HTML:" to pass HTML string
 		 * @param {string} [title] - title to display. prefix with "HTML:" to pass HTML string
-		 * @param {string|path} [icon] - path to image or one of the following:
-		 * 		| NAME			| ABBR.	| Mock	| Theme
-		 * 		| Alert			| !		| <!>	| error
-		 * 		| Error			| E		| (X)	| error
-		 * 		| Excluded		| -		| (-)	| error
-		 * 		| Help			| ?		| (?)	| info
-		 * 		| Information	| I		| (i)	| info
-		 * 		| Invalid		| Inv	| (!)	| warning
-		 * 		| No			| NO	| (\)	| error
-		 * 		| OK			| OK	| (/)	| message
-		 * 		| Paused		| PP	|		| info
-		 * 		| Required		| *		| (*)	| warning
-		 * 		| Running		| PR	|		| message
-		 * 		| Stopped		| PS	|		| error
-		 * 		| Warning		| W		| /!\   | warning
+		 * @param {string|path} [icon] - path to image or name matching a key of SvgIconMap. 
+		 *		prefix with "HTML:" to pass HTML string. If 0-length string, will 
+		 *		collapse the side panel. Use whitespace to keep open.
 		 * @param {string} [theme] - one of the following:
 		 * 		- "info" (blue)
 		 * 		- "message" (green)
