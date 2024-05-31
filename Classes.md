@@ -113,7 +113,7 @@ Start of the stack are nearest to the vertical edge of the window, and vice vers
 #### `TransColor`
 Gets/sets transparent colour of the overlay. The `Doc`'s background colour will automatically be updated. Defaults to lime (`#00FF00`). 
 
-Change this if your stylesheet is clashing with the default colour or pruducing too obvious of a halo around things.
+Change this if your stylesheet is clashing with the default colour or producing too obvious of a halo around things.
 
 #### `Wnd`
 Gets a reference of `Doc`'s `parentWindow`.
@@ -186,10 +186,17 @@ All popups should only be instantiated from `WindowNotifyOverlay` instance's `Po
 `Map` for default animation names for each popup position (sans `in-` and `out-` prefixes).
 
 #### `DefaultTitle`, `DefaultIcon`, `DefaultTheme`, `DefaultPos`
-Default values to fill if corresponding values are left blank when calling `PopupSimple()` or `Popup()`
+Default values to fill if corresponding values are left blank when calling `PopupSimple()` or `Popup()`.
+
+- `DefaultPos` defaults to `bl` (bottom left)
 
 #### `qsMap`
 `Map` where the keys are the valid sub-element components of the popup, and the value CSS selector to select it.
+
+|   |   |   |   |   |   |   |
+|---|---|---|---|---|---|---|
+| **Key**         | `popupSlot`     | `popup`   | `side`    | `title` | `content` | `styleEl`
+| **Sub-element** | popup container | the popup | side icon | title   | text      | popup stylesheet
 
 ### Constructor/destructor
 #### `__New`
@@ -198,7 +205,7 @@ __New(owner,ID,rest*) -> instance
 ```
 
 - `owner`
-– `WindowNotifyOverlay` instance creating this popup
+– `WindowNotifyOverlay` instance creating this popup.
 - `ID`
 – Unique ID used by the creating `WindowNotifyOverlay` instance to identify both the `Popup` instance and the popup inserted in its HTML.
 - `rest*`
@@ -217,6 +224,9 @@ This also calls `Remove()`
 Gets/sets the stylesheet CSS that is part of the popup.
 
 Note: This doesn't use the Shadow DOM, so all selectors must start with an id selector targeting the `ID` of the popup.
+
+Several methods e.g. `SetItemStyle()` provide a managed way to populate this stylesheet, 
+automatically filling in the selectors for you.
 
 #### `EventMap`
 The `Map` holding the callable event handlers assigned to this popup.

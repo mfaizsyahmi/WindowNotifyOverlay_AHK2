@@ -3,7 +3,7 @@ The following is the list of icons included in `WindowNotifyOverlay_icons.ahk`.
 
 The names and aliases can be used as value for the `icon` parameter in `Popup()` or `PopupSimple()`.
 If `icon` is set as aforementioned but `theme` is left blank, 
-it will infer form the `icon` value as per this table.
+it will infer from the `icon` value as per this table.
 
 | Name						| Alias		| Theme		| Icon					|
 |---------------------------|-----------|-----------|-----------------------|

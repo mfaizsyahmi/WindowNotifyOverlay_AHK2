@@ -37,14 +37,12 @@ A sandbox example is available in [Example/GuiWithOverlay.ahk](Example/GuiWithOv
 1. AutoHotkey v2.0+
 
 ## Features
-- Creates overlays and popup notifications on any window, not just the desktop.
+- Creates overlays and popup notifications over any window, not just the desktop.
 - Layout uses HTML/CSS and can be freely configured.
 - Simple and configurable popups using method chaining.
 - Supports URL and local file as icons. 
 - Select icons from the Visual Studio 2022 Image Library included in [a separate file](WindowNotifyOverlay_icons.ahk). Include both scripts to use it.
-
   See [Icons.md](Icons.md) for the list of icons.
-  
 - Supports HTML markup for title and text content.
 - CSS stylings for the whole document, the whole popup, or its sub-element.
 - Contextual popup themes: info (blue), message (green), warning (yellow), error (red), as well as a default.
@@ -63,7 +61,7 @@ A sandbox example is available in [Example/GuiWithOverlay.ahk](Example/GuiWithOv
 See [Classes.md](Classes.md) for documentation on classes in WindowNotifyOverlay.ahk.
 
 ## Changelog
-#### 2024-05-30 [v1.0.0]
+#### 2024-05-31 [v1.0.0]
 - Initial release
 
 ## License
