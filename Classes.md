@@ -220,6 +220,10 @@ __Delete()
 This also calls `Remove()`
 
 ### Instance Properties
+#### `ContentHTML`, `ContentText`, `SideHTML`, `SideText`, `TitleHTML`, `TitleText`
+Gets or sets the HTML/text of the content/side/title sub-elements. 
+Shortcut to `this.subElement[name].inner%type%`.
+
 #### `CSS`
 Gets/sets the stylesheet CSS that is part of the popup.
 
@@ -240,7 +244,7 @@ ID of this popup.
 The `WindowNotifyOverlay` instance that manages this popup.
 
 #### `popupEl`
-Gets reference to the main popup HtmlElement.
+Gets reference to the main popup HTMLElement.
 
 #### `Pos`
 Gets/sets the position of this popup. Values are same as `WindowNotifyOverlay.Popup()`'s `pos` argument.
@@ -250,7 +254,7 @@ You can set this repeatedly, and the popup will move to the given positions.
 Where the popup would be placed in the stack is dictated by the owner `WindowNotifyOverlay`'s `StackOrder` property.
 
 #### `SubElement[key]`
-Gets reference to a sub-element of the popup. Valid key names are the keys of the static `qsMap`.
+Gets reference to a sub-element of the popup, which is an HTMLElement. Valid key names are the keys of the static `qsMap`.
 
 ### Instance Methods
 All the following methods except `Remove()` returns the popup instance so you can chain multiple methods in a single call.
@@ -284,7 +288,7 @@ Inserts the popup at `pos`. Chaining method equivalent to `Pos` property.
 
 #### `OnEvent`
 ```ahk
-OnEvent(name, callable) -> self
+OnEvent(name, callable, AddRemove:=1) -> self
 ```
 
 Sets event callback. Valid event names and arguments passed are as follows:
@@ -299,6 +303,8 @@ Sets event callback. Valid event names and arguments passed are as follows:
 	2. `event` – The HTMLEvent object.
 	3. `linkEl` – The link element being clicked.
     4. `href` – the link's `href`.
+
+`AddRemove` has the same meaning as the same argument in AHKv2's [`OnEvent()`](https://www.autohotkey.com/docs/v2/lib/GuiOnEvent.htm).
 
 #### `Remove`
 ```ahk

@@ -7,7 +7,7 @@
  * @copyright (c) mfaizsyahmi 2024
  *
  * @summary
- * 	Creates a window overlay based on HTML/CSS, which is then used to display 
+ * 	Creates a window overlay based on HTML/CSS, which is then used to display
  * 	notifications within the window's client area.
  *  Works on both AHK Gui window and other windows, including the desktop.
  *  The Popup class implements method chaining, like good old jQuery.
@@ -342,7 +342,7 @@ Class WindowNotifyOverlay {
 	 *
 	 * @returns {WindowNotifyOverlay} new instance
 	 */
-	__New(GuiObjOrHwnd) {
+	__New(GuiObjOrHwnd, overlayGuiOpt:="") {
 		DHW := A_DetectHiddenWindows
 		DetectHiddenWindows 1
 		; get hwnd and client size right away
@@ -357,13 +357,24 @@ Class WindowNotifyOverlay {
 			this.parentHwnd := GuiObjOrHwnd
 			WinGetClientPos(,,&pW,&pH, GuiObjOrHwnd)
 
+		; 0 -> becomes its own fullscreen window with no parent
+		} else if GuiObjOrHwnd=0 {
+			this.parentHwnd := 0
+			WinGetPos(,,,&taskbarH, "ahk_class Shell_TrayWnd")
+			pW := A_ScreenWidth, pH := A_ScreenHeight - taskbarH
+
 		} else throw ValueError("GuiObjOrHwnd is neither a Gui object or a window hwnd", -1)
 
 		; register instance to static instance list
 		this.__Static.instances.Push(this)
 
 		/** @member {Gui} the overlay Gui window, child of the given window */
-		this.overlayGui := overGui := Gui("-Caption +Parent" this.parentHwnd)
+		this.overlayGui := overGui := Gui("-Caption "
+			. (this.parentHwnd
+				? "+Parent" this.parentHwnd
+				; standalone gui is automatically on top (& no taskbar button)
+				: "+AlwaysOnTop ToolWindow"))
+		this.overlayGui.opt(overlayGuiOpt)
 		overGui.BackColor := "00ff00"
 		overGui.MarginX := overGui.MarginY := 0
 
@@ -395,6 +406,7 @@ Class WindowNotifyOverlay {
 	}
 
 	__Delete() {
+		this.wnd.close()
 		this.overGui.Destroy()
 		for i, item in this.__Static.Instances
 			if item = this
@@ -435,6 +447,11 @@ Class WindowNotifyOverlay {
 				? this.parent._popups[popupSlotEl.id] : 0
 		}
 
+		_dispatchEvents(eventList, args*) {
+			for event in eventList
+				event(args*)
+		}
+
 		/** the click event handler of the parent HtmlDocument
 		 * @param {HtmlDocument} doc - event sinks get passed the parent object
 		 *		by default as the last argument. The HtmlDocument doesn't seem
@@ -452,9 +469,11 @@ Class WindowNotifyOverlay {
 				; 3: element involved (anchor for link, otherwise popupSlot)
 				; 4: [for link] link's href
 				if StrCompare(el.tagName,"A")==0 && popupInst.EventMap.has("LinkClick")
-					popupInst.EventMap["LinkClick"](popupInst, e, el, el.href)
+					this._dispatchEvents(popupInst.EventMap["LinkClick"],
+						popupInst, e, el, el.href)
 				else if popupInst.EventMap.has("Click")
-					popupInst.EventMap["Click"](popupInst, e, popupSlot)
+					this._dispatchEvents(popupInst.EventMap["Click"],
+						popupInst, e, popupSlot)
 				else ; dismiss with prejudice
 					popupInst.Remove()
 			}
@@ -469,7 +488,8 @@ Class WindowNotifyOverlay {
 			if el.tagName != "A" {
 				e.preventDefault()
 				if popupInst.EventMap.has("Click")
-					popupInst.EventMap["Click"](popupInst, e, popupSlot)
+					this._dispatchEvents(popupInst.EventMap["Click"],
+						popupInst, e, popupSlot)
 			}
 			; doc.parentWindow.event.returnValue := false
 		}
@@ -519,8 +539,15 @@ Class WindowNotifyOverlay {
 		get => this._popuptpl
 		set => this._popuptpl := value
 	}
-	
-	_csscolor(val) => val ~= "^[0-9a-f]+$" ? "#" val : val
+
+	_csscolor(val) {
+		if val ~= "i)^[0-9a-f]+$"
+			return "#" val
+		else if this.__Static.COLOR_MAP.HasProp(val)
+			return this.__Static.COLOR_MAP.%val%
+		else
+			return val
+	}
 	/** GETTER
 	 * @property
 	 * @returns {string} Colour name or RGB HEX value of the transparency
@@ -626,7 +653,7 @@ Class WindowNotifyOverlay {
 	 * @return {WindowNotifyOverlay.Popup} popup instance
 	 */
 	Popup(args*) {
-		ID := "POPUP" A_TickCount
+		ID := Format("POPUP_{:x}_{:02x}", A_TickCount, Random(0,0xffff))
 		newPopupObj := this.__Static.Popup(this,ID,args*)
 		this._popups[ID] := newPopupObj
 		return newPopupObj
@@ -650,7 +677,7 @@ Class WindowNotifyOverlay {
 	 * WindowNotifyOverlay.Popup
 	 *	Default popup class for WindowNotifyOverlay
 	 *	This class is designed to be chainable. good ol' jquery paradigm.
-	 *	All popups should only be instantiated from WindowNotifyOverlay 
+	 *	All popups should only be instantiated from WindowNotifyOverlay
 	 *	instance's .Popup() method
 	 *
 	 * Static Class Properties:
@@ -707,7 +734,7 @@ Class WindowNotifyOverlay {
 		static autoAnimMap := Map( ; per-position default animation
 			"tl","slide-l",  "tc","slide-t",  "tr","slide-r",
 			"bl","slide-l",  "bc","slide-b",  "br","slide-r" )
-			
+
 		; Set these values to make popups use them by default
 		static DefaultTitle := ""
 		static DefaultIcon := ""
@@ -722,8 +749,8 @@ Class WindowNotifyOverlay {
 		 * 		WindowNotifyOverlay's list
 		 * @param {string} text - text to display. prefix with "HTML:" to pass HTML string
 		 * @param {string} [title] - title to display. prefix with "HTML:" to pass HTML string
-		 * @param {string|path} [icon] - path to image or name matching a key of SvgIconMap. 
-		 *		prefix with "HTML:" to pass HTML string. If 0-length string, will 
+		 * @param {string|path} [icon] - path to image or name matching a key of SvgIconMap.
+		 *		prefix with "HTML:" to pass HTML string. If 0-length string, will
 		 *		collapse the side panel. Use whitespace to keep open.
 		 * @param {string} [theme] - one of the following:
 		 * 		- "info" (blue)
@@ -741,9 +768,9 @@ Class WindowNotifyOverlay {
 
 			; set defaults if set in static class
 			; EXCLUDES theme to let it infer from icon first before loading the default!
-			For name, val in {Title:title, Icon:icon, Pos:pos}.OwnProps()
-			If !StrLen(val) && StrLen(this.__Static.Default%name%)
-				val := this.__Static.Default%name%
+			For name in ["Title", "Icon", "Pos"]
+				If !StrLen(%name%) && StrLen(this.__Static.Default%name%)
+					%name% := this.__Static.Default%name%
 			/*
 			If !StrLen(title) && StrLen(this.__Static.DefaultTitle)
 				title := this.__Static.DefaultTitle
@@ -777,8 +804,8 @@ Class WindowNotifyOverlay {
 			Else If !StrLen(theme) && owner.__Static.PopupThemeAssocMap.Has(icon)
 				popupThemeClass := "popup-" owner.__Static.PopupThemeAssocMap[icon]
 			Else If !StrLen(theme) && StrLen(this.__Static.DefaultTheme)
-				popupThemeClass := this.__Static.DefaultTheme
-			Else 
+				popupThemeClass := "popup-" this.__Static.DefaultTheme
+			Else
 				popupThemeClass := "popup-default"
 
 			tempContainer := owner.doc.createElement("div")
@@ -810,7 +837,7 @@ Class WindowNotifyOverlay {
 			 * @type {Map}
 			 */
 			this._eventMap := Map(), this._eventMap.CaseSense := 0
-			this._eventMap["click"] := (*) => this.Remove()
+			;this._eventMap["click"] := (*) => this.Remove()
 
 			; place the popup in one of the positions
 			(pos) ? this.InsertAt(pos) : this.InsertAt("bl")
@@ -831,6 +858,31 @@ Class WindowNotifyOverlay {
 				Return (key = "popupSlot")
 					? this.popupEl : this.popupEl.querySelector(this.__Static.qsMap[key])
 			}
+		}
+
+		ContentText[*] {
+			get => this.SubElement["content"].innerText
+			set => this.SubElement["content"].innerText := value
+		}
+		ContentHTML[*] {
+			get => this.SubElement["content"].innerHTML
+			set => this.SubElement["content"].innerHTML := value
+		}
+		TitleText[*] {
+			get => this.SubElement["title"].innerText
+			set => this.SubElement["title"].innerText := value
+		}
+		TitleHTML[*] {
+			get => this.SubElement["title"].innerHTML
+			set => this.SubElement["title"].innerHTML := value
+		}
+		SideText[*] {
+			get => this.SubElement["side"].innerText
+			set => this.SubElement["side"].innerText := value
+		}
+		SideHTML[*] {
+			get => this.SubElement["side"].innerHTML
+			set => this.SubElement["side"].innerHTML := value
 		}
 
 		/** GETTER
@@ -946,7 +998,7 @@ Class WindowNotifyOverlay {
 
 			return this.SetItemStyle(target, cssProps)
 		}
-		
+
 		/**
 		 * Sets text alignment for the whole popup or a sub-element.
 		 *
@@ -978,12 +1030,12 @@ Class WindowNotifyOverlay {
 		SetIconSize(w?,h?) {
 			if !IsSet(w) && !IsSet(h)
 				return
-				
+
 			w := IsSet(w) ? w : "auto"
 			h := IsSet(h) ? h : "auto"
 			css := "width:" w (w~="[\w%]+$" ? "" : "px") ";"
 				.  "height:" h (h~="[\w%]+$" ? "" : "px") ";"
-				
+
 			this.CSS .= Trim(Format("#{1} .side img {{}{2}{}} ", this.ID, css))
 			return this
 		}
@@ -1028,15 +1080,30 @@ Class WindowNotifyOverlay {
 		 * @method
 		 * @param {string} name - event name
 		 * @param {PopupEvent} callable - event callback
+		 * @param {integer} AddRemove where to place the callback
 		 *
 		 * @throws {ValueError} callable not a callable
 		 *
 		 * @returns {WindowNotifyOverlay.Popup} self
 		 */
-		OnEvent(name, callable) {
+		OnEvent(name, callable, AddRemove:=1) {
 			If !callable.HasMethod()
 				Throw ValueError("Value not callable", -1)
-			this.EventMap[name] := callable
+
+			If !this.EventMap.Has(name)
+				this.EventMap[name] := []
+
+			If AddRemove = -1
+				this.EventMap[name].InsertAt(1,callable)
+			Else If AddRemove = 1
+				this.EventMap[name].Push(callable)
+			Else If AddRemove = 0
+				For i, item in this.EventMap[name]
+					If item = callable {
+						this.EventMap[name].RemoveAt(i)
+						Break
+					}
+
 			return this
 		}
 
@@ -1090,8 +1157,7 @@ Class WindowNotifyOverlay {
 			}
 			Else if StrLen(Trim(animationClass)) {
 				this.SubElement["popupSlot"].classList.add(animationClass)
-				this.EventMap["Click"] := (*) => this.Hide(
-					RegExReplace(animationClass,"i)in-","out-"))
+				this._preferredHideAnim := RegExReplace(animationClass,"i)in-","out-")
 			}
 			this.SubElement["popupSlot"].classList.remove("hidden")
 			if wait >= 0 {
@@ -1154,8 +1220,13 @@ Class WindowNotifyOverlay {
 
 			If animationClass = "auto"
 				animationClass := "out-" this.__Static.autoAnimMap[this.pos]
+			Else If !StrLen(Trim(animationClass))
+				animationClass := (this.HasProp("_preferredHideAnim"))
+					? this._preferredHideAnim
+					: "hidden"
+
 			boundAsync := ((c)=>popupEl.classList.add(c))
-				.Bind(StrLen(Trim(animationClass)) ? animationClass : "hidden")
+				.Bind(Trim(animationClass))
 			SetTimer boundAsync, -1
 
 			if deleteAfter >= 0
@@ -1187,7 +1258,7 @@ Class WindowNotifyOverlay {
 }
 
 ; The SVG icon set is in this separate file.
-; To include them on every import of this library everywhere it's used, 
+; To include them on every import of this library everywhere it's used,
 ;   uncomment the following #Include line.
 ; To exclude them, comment out the following #Include line.
 ; Alternatively, include the following #include line yourself below the #include

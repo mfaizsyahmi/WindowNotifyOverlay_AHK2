@@ -1,5 +1,5 @@
 # WindowNotifyOverlay.ahk
-Window overlay and notification popups using HTML.
+AHK2 library for window overlay and notification popups using HTML.
 
 Creates a window overlay using HTML/CSS, which is then used to display notifications within the window's client area. 
 Works on both AHK Gui window and other windows, including the desktop. 
@@ -33,6 +33,8 @@ myOverlay.PopupSimple("Hello!")
 
 A sandbox example is available in [Example/GuiWithOverlay.ahk](Example/GuiWithOverlay.ahk).
 
+<video src="media/demo.webm"></video>
+
 ## Requirements
 1. AutoHotkey v2.0+
 
@@ -47,7 +49,16 @@ A sandbox example is available in [Example/GuiWithOverlay.ahk](Example/GuiWithOv
 - CSS stylings for the whole document, the whole popup, or its sub-element.
 - Contextual popup themes: info (blue), message (green), warning (yellow), error (red), as well as a default.
 - A few popup animations built into the CSS.
-- Click and LinkClick event callbacks.
+- `Click` and `LinkClick` event callbacks.
+
+![demo positions]  
+*6 popup positions*
+
+![demo themes]  
+*contextual themes*
+
+![demo icons]  
+*Select icons (available by importing `WindowNotifyOverlay_icons.ahk`)*
 
 ## Known issues
 - Currently doesn't support `HICON` and `HBITMAP` icons.
@@ -61,8 +72,22 @@ A sandbox example is available in [Example/GuiWithOverlay.ahk](Example/GuiWithOv
 See [Classes.md](Classes.md) for documentation on classes in WindowNotifyOverlay.ahk.
 
 ## Changelog
+#### 2024-06-01 [v1.1.0]
+- Added ability to create WindowNotifyOverlay as a standalone Gui with no parent.
+- Better handling of TransColor setting.
+- Modified Popup `OnEvent()` handling to allow for multiple callbacks to be assigned to the same event name, 
+  in line with how it's done in vanilla AHKV2.
+- Added convenience properties to get/set popup titles/content/side sub-elements.
+- Fixed Popup static defaults not being applied to instances.
+- Fixed major bug with colliding popup IDs... hopefully ??
+
 #### 2024-05-31 [v1.0.0]
 - Initial release
 
 ## License
 See [LICENSE.txt](LICENSE.txt) for full text.
+
+[demo video]: media/demo.webm
+[demo icons]: media/demo_icons.png
+[demo positions]: media/demo_positions.png
+[demo themes]: media/demo_themes.png
